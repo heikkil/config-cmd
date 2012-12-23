@@ -136,21 +136,21 @@ sub _get_file {
    use Config::Cmd;
    my $conf = Config::Cmd(section => 'parallel');
    my $parallel_opts = $conf->get;  # read from ./parallel_conf.yaml
-   # call external programme
+   # call external program
    `$exe $parallel_opts @args`;
 
 =head1 DESCRIPTION
 
 This module makes it easy to take a set of command line options and
 store them into a config file and read them later in for passing to an
-external programme. Part of this distribution is a command line
-programme L<configcmd> for writing these commands into a file. The main
+external program. Part of this distribution is a command line
+program L<configcmd> for writing these commands into a file. The main
 application can then use this module to automate reading of these
 options and passing them on.
 
 =head2 Finding the configuration files
 
-The command line programme writes into the working directory. The
+The command line program writes into the working directory. The
 default name is the section name appended with string
 '_conf.yaml'. This file can be moved and renamed.
 
@@ -164,7 +164,7 @@ file ~/.[section]_conf.yaml.
 =method section
 
 The obligatory section name for the stored configuration. This string,
-typically a programme name, defines the name of the config file.
+typically a program name, defines the name of the config file.
 
 =method filename
 
