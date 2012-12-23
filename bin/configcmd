@@ -1,0 +1,95 @@
+#!/usr/bin/env perl
+
+use Config::Cmd;
+use Getopt::Long;
+use Carp;
+
+use strict;
+use warnings;
+
+use constant PROGRAMME_NAME => 'configcmd';
+# ABSTRACT: Store command line options in a file for future use
+# VERSION
+# PODNAME: configcmd
+
+
+GetOptions(
+    'version' => sub { print PROGRAMME_NAME, ",
+                       version ", $VERSION, "\n";
+		       exit 1; },
+    'help|?'  => sub { exec('perldoc',$0); exit 0 },
+);
+
+#section name is the obligtory first argument
+my $section = shift;
+my $c = Config::Cmd->new(section => $section);
+
+# store the rest of the options in a file
+$c->set(\@ARGV);
+
+=pod
+
+
+=head1 NAME
+
+configcmd -  Store command line options in a file for future use
+
+=head1 SYNOPSIS
+
+B<configcmd> [B<--version> | [B<-?|-h|--help>] | section options
+
+  configcmd subprgm -j 8 --verbose
+
+=head1 DESCRIPTION
+
+configcmd takes any POSIX command line with GNU extensions and stores
+it in a configuration file that can be later read into a programme and
+passed to the sub-programme. This simplifies the input for command
+line scripts that are repeatedly run in different complex environments.
+
+The first argument to the programme is special: it determines the file
+name the configuration is written into. The file name is the string
+appended with '_conf.yaml' since the configuration is written in YAML
+language.
+
+This module does not do any interpretation of the options. It only
+does simple simple sanity check and stores them. The interpretation is
+left to the code using these options that passes them to the
+sub-programme. Programmes that use non-standard options (e.g. tar zxvf),
+do understand standard option syntax, so you have to use it here.
+
+=head2 File format
+
+The first argument to the programme is used inside the YAML file as
+the section key. This gives some redundancy to the section information
+and the file can be renamed when needed. All other command line
+options are under this section name in an array. The options are
+stored as key value pairs, except simple options that contain only the
+key.
+
+The simple command line in the synopsis is turned into the following
+self-explanatory YAML:
+
+  ---
+  subprgm:
+    - key: -j
+      value: 8
+    - key: --verbose
+
+
+=head2 Use of config files
+
+read the config
+- Config::Cmd::read_file
+- Config::Auto
+- Any YAML parser
+
+- config files in working directory
+- in user's home directory
+
+
+=head1 SEE ALSO
+
+L<Config::Cmd>, L<Config::Auto>
+
+=cut
