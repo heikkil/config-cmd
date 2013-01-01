@@ -2,15 +2,17 @@
 # VERSION
 
 package Config::Cmd;
-use Mo;
+use Mo qw(default);
 use YAML qw'Dump DumpFile LoadFile';
 use Modern::Perl;
 use Carp;
+use Data::Printer;
 
 use constant EXT => '_conf.yaml';
 
 has section => ();
 has filename => ();
+has quote => ( default => sub { q(') } );
 
 sub set {
     my $self = shift;
@@ -67,9 +69,7 @@ sub set_silent {
 	push @{$config->{$section}}, $tuple;
     }
 
-    #print Dump $config;
     DumpFile $self->_set_file, $config;
-
 }
 
 sub get {
@@ -81,7 +81,9 @@ sub get {
     my @list;
     for my $tuple (@{$config->{$section}}) {
 	if (defined $tuple->{value}) {
-	    push @list, $tuple->{key}, $tuple->{value};
+	    my $value = $tuple->{value};
+	    $value = $self->quote. $value. $self->quote if  $value =~ /\s/;
+	    push @list, $tuple->{key}, $value;
 	} else {
 	    push @list, $tuple->{key};
 	}
@@ -183,6 +185,13 @@ Same as set() but does not report to STDERR.
 =method get
 
 Get the command line options stored in the file as a string.
+
+=method quote
+
+The quote character to put around a string with white spaces by method
+L<get>. Defaults to single quote to make it possible to use double
+quotes for the whole string. Can be set to any string but you would
+foolish to set to anything else than single or double quote character.
 
 =head1 SEE ALSO
 
