@@ -128,7 +128,7 @@ sub _get_file {
    configcmd parallel -j 8 --verbose
    # stored in ./parallel_conf.yaml
 
-   # same using the module directly
+   # same functionality when using the module directly
    use Config::Cmd;
    my $conf = Config::Cmd(section => 'parallel');
    $conf->set('-j 8 --verbose');
@@ -142,10 +142,10 @@ sub _get_file {
 
 =head1 DESCRIPTION
 
-This module makes it easy to take a set of command line options and
-store them into a config file and read them later in for passing to an
-external program. Part of this distribution is a command line
-program L<configcmd> for writing these commands into a file. The main
+This module makes it easy to take a set of command line options, store
+them into a config file, and read them later in for passing to an
+external program. Part of this distribution is a command line program
+L<configcmd> for writing these options into a file. The main
 application can then use this module to automate reading of these
 options and passing them on.
 
@@ -157,7 +157,7 @@ want stick with single quotes.
 =head2 Finding the configuration files
 
 The command line program writes into the working directory. The
-default name is the section name appended with string
+default filename is the section name appended with string
 '_conf.yaml'. This file can be moved and renamed.
 
 The method L<filename> can be used to set the path where the file is
