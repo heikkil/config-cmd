@@ -8,10 +8,10 @@ use strict;
 use warnings;
 
 use constant PROGRAM_NAME => 'configcmd';
+
 # ABSTRACT: Store command line options in a file for future use
 # VERSION
 # PODNAME: configcmd
-
 
 GetOptions(
     'version' => sub { print PROGRAM_NAME, ",
@@ -30,7 +30,6 @@ my $c = Config::Cmd->new(section => $section);
 $c->set(\@ARGV);
 
 =pod
-
 
 =head1 NAME
 

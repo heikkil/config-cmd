@@ -3,10 +3,9 @@
 
 package Config::Cmd;
 use Mo qw(default);
-use YAML qw'Dump DumpFile LoadFile';
+use YAML qw'DumpFile LoadFile';
 use Modern::Perl;
 use Carp;
-use Data::Printer;
 
 use constant EXT => '_conf.yaml';
 
@@ -150,13 +149,18 @@ program L<configcmd> for writing these commands into a file. The main
 application can then use this module to automate reading of these
 options and passing them on.
 
+The options stored by Command::Cmd and its command line tool use
+single quotes around options with white space, but that can be changed
+to double quotes if needed by using method L<quote>. Usually you will
+want stick with single quotes.
+
 =head2 Finding the configuration files
 
 The command line program writes into the working directory. The
 default name is the section name appended with string
 '_conf.yaml'. This file can be moved and renamed.
 
-The method filename() can be used to set the path where the file is
+The method L<filename> can be used to set the path where the file is
 found. This overrides all other potential places. If the filename has
 not been set, the module uses the section name to find the
 configuration file from the working directory (./[section]_conf.yaml).
