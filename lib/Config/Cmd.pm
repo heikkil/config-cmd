@@ -1,11 +1,11 @@
-# ABSTRACT: Command line to config file two way interface
-# VERSION
-
 package Config::Cmd;
 use Mo qw(default);
 use YAML qw'DumpFile LoadFile';
 use Modern::Perl;
 use Carp;
+
+# ABSTRACT: Command line to config file two way interface
+# VERSION
 
 use constant EXT => '_conf.yaml';
 
